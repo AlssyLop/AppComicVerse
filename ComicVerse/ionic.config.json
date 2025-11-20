@@ -1,0 +1,7 @@
+{
+  "name": "ComicVerse",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
