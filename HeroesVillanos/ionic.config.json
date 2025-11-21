@@ -1,0 +1,7 @@
+{
+  "name": "HeroesVillanos",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

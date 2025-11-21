@@ -1,8 +1,8 @@
-# ComicVerse
-Un universo completo de cómics, es fácil de recordar y tiene un toque moderno.
+# HeroesVillanos
+Un universo completo de cómics, fácil de recordar y tiene un toque moderno.
 
 ### Requisitos previos
-node -v      # v20+
+node v20+
 npm -v
 npm i -g @ionic/cli
-Ionic 7 + Angular 17/18
+Ionic 7 + Angular 18
