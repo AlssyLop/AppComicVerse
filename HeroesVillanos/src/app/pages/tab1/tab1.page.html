@@ -1,0 +1,47 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title class="ion-text-center">
+      Descubre Personajes
+    </ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+      <ion-searchbar class="ion-no-padding ion-padding-top"
+        color="light"
+        placeholder="Buscar..."
+        fill="solid"
+        type="text"
+        (ionInput)="searchCharacters($event)"
+        [debounce]="500"
+        >
+        </ion-searchbar>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid>
+     @for (character of charactersArray; track $index) {
+        <ion-card>
+           <ion-row (click)="showLoading(character.id)">
+            <ion-col size-lg="4" size-sm="4" size-md="4" size="4">
+              <ion-img [src]="character.images" ></ion-img>
+            </ion-col>
+            <ion-col size-lg="8" size-sm="8" size-md="8" size="8">
+              <ion-card-title >
+                {{character.name}}
+              </ion-card-title>
+              <ion-card-subtitle>
+                {{character.appearance}} {{character.afiliation}} <br> universe: {{character.universe}}
+              </ion-card-subtitle>
+              <ion-card-content>
+                Seen in {{character.firstAppearance}}
+              </ion-card-content>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      }
+  
+  </ion-grid>
+  <ion-infinite-scroll (ionInfinite)="getCharacters($event)" >
+    <ion-infinite-scroll-content loadingText="Please wait..." loadingSpinner="bubbles"  ></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

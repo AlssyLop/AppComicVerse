@@ -1,0 +1,35 @@
+<ion-header node="md">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button slot="start" defaultHref="/tabs/tab1"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+@if (loaded) {
+  <ion-content>
+    <ion-card>
+        <ion-img size-lg="4" size-sm="4" size-md="4" size="12"  [src]="details.image"></ion-img>
+      <ion-card-header>
+        <ion-card-title class="ion-text-center">{{ details.name }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>{{ details.aliases }}</p>
+        <p>{{ details.firstAppearance }}</p>
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
+}@else{
+    <ion-content>
+    <ion-card>
+        <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
+      <ion-card-header>
+        <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+        <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+      </ion-card-content>
+    </ion-card>
+  </ion-content>
+}

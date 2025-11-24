@@ -1,0 +1,29 @@
+ion-card{
+  border-radius: 8px;
+  margin: 3% 0;
+}
+ion-card-content{
+  display: contents;
+}
+ion-badge{
+  margin-top: 10px;
+  background: rgba(0 ,0 ,0 , 0.3);
+}
+ion-card-title{
+  font-weight: 900;
+}
+.contPokemon{
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 50% 50% 50% 0%;
+}
+.contData{
+  justify-content: center;
+  margin: auto;
+  padding-left: 10%;
+}
+.pokemon{
+  position: relative;
+  height: 200px;
+  margin: auto;
+  max-width: 200px;
+}
