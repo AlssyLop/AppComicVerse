@@ -4,16 +4,19 @@ import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalo
 import { AppComponent } from './app/app.component';
 import { provideHttpClient } from '@angular/common/http';
 import { addIcons } from 'ionicons';
-import { star, heart, settings } from 'ionicons/icons';
+import { star, heart, settings, trash, swapVertical, filterOutline, reload } from 'ionicons/icons';
 
 addIcons({
   'star': star,
   'heart': heart,
   'settings': settings,
+  'trash': trash,
+  "swap-vertical": swapVertical,
+  'filter-outline': filterOutline,
+  'reload': reload,
 });
 
 import { routes } from './app/app.routes';
-import { add } from 'ionicons/icons';
 
 bootstrapApplication(AppComponent, {
   providers: [

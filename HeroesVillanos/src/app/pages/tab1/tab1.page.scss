@@ -1,29 +1,164 @@
-ion-card{
-  border-radius: 8px;
-  margin: 3% 0;
+
+:root {
+  --primary: #ff1ead; /* Color de acento 1 */
+  --secondary: #1effc3; /* Color de acento 2 */
+  --background: #cec5c5; /* Fondo rincipal */
+  --card-bg: #000000; /* Fondo de la tarjeta (negro) */
 }
-ion-card-content{
-  display: contents;
+
+ion-header {
+  /* Hacemos que todo el header use el color de fondo de tus tarjetas para un look unificado */
+  background: var(--card-bg);
+  color: white; 
 }
-ion-badge{
-  margin-top: 10px;
-  background: rgba(0 ,0 ,0 , 0.3);
+
+ion-toolbar {
+  --background: var(--card-bg);
+  color: white;
+
+  /* Aseguramos que el título sea visible */
+  ion-title {
+    font-size: 1.5rem;
+  }
+
 }
-ion-card-title{
-  font-weight: 900;
+
+.ion-no-border {
+  border-radius: 15px;
+  border: none;
+  padding: 0px;
+  height: 45px;
 }
-.contPokemon{
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 50% 50% 50% 0%;
+
+
+
+
+.limited-text-chip {
+  max-width: 130px; 
+  justify-content: flex-start;
+  margin: 4px; 
+  height: 30px;
+  --border-color: var(--primary); 
+  border-radius: 15px;
+
+  .select-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    max-width: 100%;
+    color: white; // Asegura que el texto dentro del select sea blanco
+  }
+
+  ion-select::part(icon) {
+    color: var(--primary);
+    opacity: 1;
+  }
 }
-.contData{
-  justify-content: center;
-  margin: auto;
-  padding-left: 10%;
+
+
+.card-custom { 
+  padding: 0%; 
+  background: var(--card-bg); 
+  
+  border-radius: 0.90rem;
+  box-shadow: 0 22px 40px 4px rgba(0,0,0,0.34), 0 0 0 1px rgba(0, 0, 0, 0.3);
+  margin: 0px;
+
+  // Add animation properties
+  view-timeline-name: --reveal;
+  animation-name: show;
+  animation-fill-mode: both;
+  animation-timeline: --reveal;
+  animation-range: entry 5% cover 15%;
+  
+  &:hover {
+    transform: scale(1.02); 
+    box-shadow: 0 32px 80px 14px rgba(0,0,0,0.36), 0 0 0 1px rgba(0, 0, 0, 0.3);
+  }
 }
-.pokemon{
-  position: relative;
-  height: 200px;
-  margin: auto;
-  max-width: 200px;
+
+// Add the keyframes for the animation
+@keyframes show {
+  from {
+    opacity: 0;
+    scale: 0.1;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
 }
+
+.card-avatar {
+  display: grid;
+  place-items: center;
+  border-radius: 10%;
+  overflow: hidden;
+  ion-img {
+    background-color: #333; 
+
+    &::part(spinner) {
+      color: var(--primary); 
+      width: 40px; // Tamaño del spinner
+      height: 40px;
+    }
+  }
+}
+
+.card-details {
+  padding: 0.8rem;
+  display: flex;
+  flex-direction: column; // Apilamos los elementos verticalmente
+  height: 100%; // Asegura que ocupe todo el alto del row
+}
+
+.name {
+  font-size: 1.25rem;
+  margin-bottom: 0.1rem;
+}
+
+.occupation {
+  font-weight: 500;
+  font-size: 0.93rem;
+  color: var(--primary); // Color de acento 1
+  margin-bottom: 0.2rem;
+}
+
+.card-about {
+  display: flex;
+  justify-content: space-between; 
+  width: 100%;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 33%; 
+  font-size: 0.85rem;
+
+   
+  .label {
+    margin-top: 0.10rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--secondary); // Color de acento 2
+  }
+}
+
+.skills {
+  display: flex;
+  margin-top: 0.40rem;
+   
+  .value {
+    margin-top: 0.12rem;
+    font-size: 0.73rem;
+    line-height: 1.25rem;
+    // Truncar texto si es demasiado largo para una sola línea
+    white-space:unset;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-block-size: 5rem;
+  }
+}
+

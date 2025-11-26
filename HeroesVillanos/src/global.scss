@@ -35,3 +35,101 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+
+.glass-content {
+    background: rgba(19, 63, 176, 0.27);
+    box-shadow: 0 4px 30px rgba(7, 77, 216, 0.1);
+    backdrop-filter: blur(25.3px);
+    -webkit-backdrop-filter: blur(25.3px);
+    width: 100%;
+    min-height: 100vh;
+}
+
+.d-flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+
+
+ion-card {
+    margin: 20px;
+    background: rgba(7, 7, 7, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+
+
+
+
+.loader {
+    text-align: center;
+    padding-top: 15vh;
+
+    ion-spinner {
+        padding: 50px;
+        --color: white;
+    }
+}
+
+p{
+    font-size: 1em;
+}
+
+
+.searchbar-input.sc-ion-searchbar-md {
+    font-family: inherit;
+    font-size: inherit;
+    font-style: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+    text-decoration: inherit;
+    text-indent: inherit;
+    text-overflow: inherit;
+    text-transform: inherit;
+    /* text-align: inherit; */
+    white-space: inherit;
+    color: inherit;
+    /* border-radius: var(--border-radius); */
+    display: block;
+    width: 100%;
+    min-height: inherit;
+    border: 0;
+    /* outline: none; */
+    background: var(--background);
+    font-family: inherit;
+    -webkit-box-shadow: var(--box-shadow);
+    box-shadow: var(--box-shadow);
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+input.searchbar-input.sc-ion-searchbar-md {
+    -webkit-padding-start: 3.4375rem;
+    padding-inline-start: 3rem;
+    -webkit-padding-end: 3rem;
+    padding-inline-end: 3.4375rem;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+    background-position: left 8px center;
+    height: auto;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 30px;
+}
+
+.input-wrapper {
+    background-color: antiquewhite;
+    color: var(--ion-color-light);
+}

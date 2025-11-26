@@ -1,5 +1,5 @@
 <ion-header node="md">
-  <ion-toolbar>
+  <ion-toolbar style="padding: 0; height: 45px;">
     <ion-buttons slot="start">
       <ion-back-button slot="start" defaultHref="/tabs/tab1"></ion-back-button>
     </ion-buttons>
@@ -9,27 +9,155 @@
 @if (loaded) {
   <ion-content>
     <ion-card>
-        <ion-img size-lg="4" size-sm="4" size-md="4" size="12"  [src]="details.image"></ion-img>
+      <ion-img [src]="details.image" alt="{{details.name}}"></ion-img>
       <ion-card-header>
         <ion-card-title class="ion-text-center">{{ details.name }}</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <p>{{ details.aliases }}</p>
-        <p>{{ details.firstAppearance }}</p>
+        <p><strong>Aliases:</strong> {{ details.aliases }}</p>
+        <p><strong>First Appearance:</strong> {{ details.firstAppearance }}</p>
+        <p><strong>Place of Birth:</strong> {{ details.placeOfBirth }}</p>
+        <p><strong>Full Name:</strong> {{ details.fullName }}</p>
+        <p><strong>Occupation:</strong> {{ details.occupation }}</p>
+        <p><strong>Relatives:</strong> {{ details.relatives }}</p>
+        <p><strong>Base:</strong> {{ details.base }}</p>
+        <p><strong>Group Affiliation:</strong> {{ details.groupAffiliation }}</p>
+        
+        <!-- Power Stats Visualization -->
+        <div class="power-stats-container">
+          <h3>Power Stats</h3>
+          
+          <div class="stat-item">
+            <div class="stat-label">
+              <span>Intelligence</span>
+              <span>{{ details.intelligence }}/100</span>
+            </div>
+            <div class="stat-bar">
+              <div class="stat-fill" [ngStyle]="{'width': details.intelligence + '%'}"></div>
+            </div>
+          </div>
+          
+          <div class="stat-item">
+            <div class="stat-label">
+              <span>Strength</span>
+              <span>{{ details.strength }}/100</span>
+            </div>
+            <div class="stat-bar">
+              <div class="stat-fill" [ngStyle]="{'width': details.strength + '%'}"></div>
+            </div>
+          </div>
+          
+          <div class="stat-item">
+            <div class="stat-label">
+              <span>Speed</span>
+              <span>{{ details.speed }}/100</span>
+            </div>
+            <div class="stat-bar">
+              <div class="stat-fill" [ngStyle]="{'width': details.speed + '%'}"></div>
+            </div>
+          </div>
+          
+          <div class="stat-item">
+            <div class="stat-label">
+              <span>Durability</span>
+              <span>{{ details.durability }}/100</span>
+            </div>
+            <div class="stat-bar">
+              <div class="stat-fill" [ngStyle]="{'width': details.durability + '%'}"></div>
+            </div>
+          </div>
+          
+          <div class="stat-item">
+            <div class="stat-label">
+              <span>Power</span>
+              <span>{{ details.power }}/100</span>
+            </div>
+            <div class="stat-bar">
+              <div class="stat-fill" [ngStyle]="{'width': details.power + '%'}"></div>
+            </div>
+          </div>
+          
+          <div class="stat-item">
+            <div class="stat-label">
+              <span>Combat</span>
+              <span>{{ details.combat }}/100</span>
+            </div>
+            <div class="stat-bar">
+              <div class="stat-fill" [ngStyle]="{'width': details.combat + '%'}"></div>
+            </div>
+          </div>
+        </div>
       </ion-card-content>
     </ion-card>
   </ion-content>
 }@else{
     <ion-content>
     <ion-card>
-        <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
+        <ion-skeleton-text [animated]="true" style="width: 100%; height: 400px;"></ion-skeleton-text>
       <ion-card-header>
-        <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+        <ion-skeleton-text [animated]="true" style="width: 100%; height: 10px;"></ion-skeleton-text>
       </ion-card-header>
       <ion-card-content>
         <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
         <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
       </ion-card-content>
+
+      <div class="power-stats-container">
+          <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+          
+          <div >
+            <div>
+              <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+            </div>
+            <div >
+              <div ></div>
+            </div>
+          </div>
+          
+          <div >
+            <div>
+              <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+            </div>
+            <div >
+            </div>
+          </div>
+          
+          <div >
+            <div >
+              <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+            </div>
+            <div >
+              <div ></div>
+            </div>
+          </div>
+          
+          <div >
+            <div >
+              <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+            </div>
+            <div >
+              <div ></div>
+            </div>
+          </div>
+          
+          <div >
+            <div >
+              <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+            </div>
+            <div >
+              <div ></div>
+            </div>
+          </div>
+          
+          <div >
+            <div >
+              <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+            </div>
+            <div >
+              <div ></div>
+            </div>
+          </div>
+        </div>
     </ion-card>
   </ion-content>
 }

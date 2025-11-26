@@ -5,6 +5,8 @@ import { Characters } from 'src/app/core/services/characters';
 import { ActivatedRoute } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { SharedModule } from 'src/app/shared/shared-module';
+import { Details } from 'src/app/models/details.model';
+
 
 @Component({
   selector: 'app-character-details',
@@ -24,18 +26,22 @@ export class CharacterDetailsPage implements OnInit {
     this.characterId = this.route.snapshot.paramMap.get('id') as string;
   }
 
-  ngOnInit() {
-    this.getDetails();
+  async ngOnInit() 
+  {
     this.cargarConRetraso();
+    await this.getDetails();
+    
   }
 
 
   async getDetails(){
     console.log('Getting details for character ID:', this.characterId);
     const detail = await this.characters.getDetails(this.characterId);
+    console.log('Raw detail data:', detail);
+    
     this.details = {
       name: detail.name,
-      aliases: detail.biography.aliases,
+      aliases: detail.biography.aliases ? detail.biography.aliases.join(', ') : '',
       firstAppearance: detail.biography.firstAppearance,
       placeOfBirth: detail.biography.placeOfBirth,
       fullName: detail.biography.fullName,
@@ -43,7 +49,7 @@ export class CharacterDetailsPage implements OnInit {
       relatives: detail.connections.relatives,
       groupAffiliation: detail.connections.groupAffiliation,
       base: detail.work.base,
-      image: detail.images.lg,
+      image: detail.images.lg, 
       intelligence: detail.powerstats.intelligence,
       strength: detail.powerstats.strength,
       speed: detail.powerstats.speed,
@@ -58,35 +64,14 @@ export class CharacterDetailsPage implements OnInit {
       }
     }
 
-    console.log('Details:', this.details);
-
+    console.log('Processed details:', this.details);
   }
 
   cargarConRetraso() {
-    console.log("Cargando...");
+    console.log("Loading...");
     setTimeout(() => {
       this.loaded = true;
     }, 1200); 
   }
 
 }
-
-interface Details {
-  name:string;
-  aliases: string[];
-  firstAppearance: string;
-  placeOfBirth: string;
-  fullName: string;
-  occupation: string;
-  relatives: string;
-  base: string;
-  image: string;
-  groupAffiliation: string;
-  intelligence: string;
-  strength: string;
-  speed: string;
-  durability: string;
-  power: string;
-  combat: string;
-}
-
