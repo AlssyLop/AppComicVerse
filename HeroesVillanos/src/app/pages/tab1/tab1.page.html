@@ -16,6 +16,10 @@
              style="font-size: 1rem; padding: 9px 15px 9px 4px; margin: 0px;">
             <ion-icon name="swap-vertical"></ion-icon>
           </ion-chip>
+          <ion-chip  color="primary" outline="true" (click)="orderByAlphabet()"
+             style="font-size: 1rem; padding: 9px 15px 9px 4px; margin: 0px;">
+            <ion-label style="font-size: 0.9rem;">A-Z</ion-label>
+          </ion-chip>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -128,6 +132,18 @@
                     
                     <div class="name">
                       <strong>{{ character.name}}</strong>
+                      <ion-icon 
+                        name="heart" 
+                        *ngIf="isFavorite(character.id)"
+                        (click)="toggleFavorite(character, $event)"
+                        style="font-size: 1.2rem; color: #ff1ead; cursor: pointer; margin-left: 8px;"
+                      ></ion-icon>
+                      <ion-icon 
+                        name="heart-outline" 
+                        *ngIf="!isFavorite(character.id)"
+                        (click)="toggleFavorite(character, $event)"
+                        style="font-size: 1.2rem; color: #999; cursor: pointer; margin-left: 8px;"
+                      ></ion-icon>
                     </div>
                     <div class="occupation">
                       {{character.appearance}} {{character.afiliation}} {{character.universe}}

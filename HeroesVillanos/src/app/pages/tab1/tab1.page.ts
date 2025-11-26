@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared-module';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import {Characters} from '../../core/services/characters';
 import MainPowers from '../../../assets/data/main-power.json';
 import { Character } from 'src/app/models/character.model';
@@ -35,7 +36,7 @@ import { ViewChild } from '@angular/core';
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
-  imports: [ IonLabel, IonItem, IonAccordionGroup, IonAccordion, IonIcon, IonSelectOption, IonSelect, IonHeader, IonChip, IonToolbar, IonSearchbar, IonContent, IonInfiniteScroll, IonInfiniteScrollContent, IonCard, IonCardContent, IonCol, IonGrid, IonImg, IonRow, SharedModule, FormsModule ],
+  imports: [ IonLabel, IonItem, IonAccordionGroup, IonAccordion, IonIcon, IonSelectOption, IonSelect, IonHeader, IonChip, IonToolbar, IonSearchbar, IonContent, IonInfiniteScroll, IonInfiniteScrollContent, IonCard, IonCardContent, IonCol, IonGrid, IonImg, IonRow, SharedModule, FormsModule, CommonModule ],
 })
 
 export class Tab1Page {
@@ -52,6 +53,8 @@ export class Tab1Page {
   maxNumberOfCharactersToDisplay: number = 20;
   loadedCharacters: number = 0;
   orderRatingAsc:boolean = true;
+  orderAlphaAsc:boolean = true;
+  favoriteIds: Set<number> = new Set();
 
   @ViewChild(IonContent) content!: IonContent;
 
@@ -60,9 +63,18 @@ export class Tab1Page {
   }
 
   async ngOnInit() {
+    this.loadFavorites();
     await this.prepareCharacterDisplayData();
     this.generarRangoAleatorioSinRepeticion();
     await this.getCharacters();
+  }
+
+  private loadFavorites() {
+    const storedFavorites = localStorage.getItem('favoriteCharacters');
+    if (storedFavorites) {
+      const favorites: Character[] = JSON.parse(storedFavorites);
+      this.favoriteIds = new Set(favorites.map(char => char.id));
+    }
   }
 
   private async prepareCharacterDisplayData(): Promise<void> {
@@ -284,6 +296,52 @@ export class Tab1Page {
     this.content.scrollToTop(500);
     this.charactersArray = [...sortedCharacters.slice(0, 20)];
     console.log(this.charactersArray);
+  }
+
+  orderByAlphabet() {
+    let sortedCharacters:Character[] = [];
+    if (this.filterCharacters.length != 0){
+       sortedCharacters = this.filterCharacters = this.filterCharacters.sort((a, b) => {
+        if (this.orderAlphaAsc) {
+          return a.name.localeCompare(b.name);
+        } else {
+          return b.name.localeCompare(a.name);
+        }
+      }); 
+    }else{
+      sortedCharacters = this.auxCharacters = this.auxCharacters.sort((a, b) => {
+        if (this.orderAlphaAsc) {
+          return a.name.localeCompare(b.name);
+        } else {
+          return b.name.localeCompare(a.name);
+        }
+      });
+    }
+    this.orderAlphaAsc = !this.orderAlphaAsc;
+    this.content.scrollToTop(500);
+    this.charactersArray = [...sortedCharacters.slice(0, 20)];
+    console.log(this.charactersArray);
+  }
+
+  toggleFavorite(character: Character, event: Event) {
+    event.stopPropagation();
+    
+    if (this.favoriteIds.has(character.id)) {
+      this.favoriteIds.delete(character.id);
+    } else {
+      this.favoriteIds.add(character.id);
+    }
+    
+    // Obtener todos los personajes favoritos completos
+    const allCharacters = [...this.dataArray, ...this.auxCharacters];
+    const uniqueCharacters = Array.from(new Map(allCharacters.map(char => [char.id, char])).values());
+    const favoriteCharacters = uniqueCharacters.filter(char => this.favoriteIds.has(char.id));
+    
+    localStorage.setItem('favoriteCharacters', JSON.stringify(favoriteCharacters));
+  }
+
+  isFavorite(characterId: number): boolean {
+    return this.favoriteIds.has(characterId);
   }
 
   clearFilters(){
