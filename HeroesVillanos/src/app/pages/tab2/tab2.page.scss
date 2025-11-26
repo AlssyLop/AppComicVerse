@@ -1,0 +1,118 @@
+:root {
+  --primary: #ff1ead;
+  --secondary: #1effc3;
+  --background: #cec5c5;
+  --card-bg: #000000;
+}
+
+ion-header {
+  background: var(--card-bg);
+  color: white;
+}
+
+ion-toolbar {
+  --background: var(--card-bg);
+  color: white;
+}
+
+.card-custom { 
+  padding: 0%; 
+  background: var(--card-bg); 
+  
+  border-radius: 0.90rem;
+  box-shadow: 0 22px 40px 4px rgba(0,0,0,0.34), 0 0 0 1px rgba(0, 0, 0, 0.3);
+  margin: 0px;
+
+  view-timeline-name: --reveal;
+  animation-name: show;
+  animation-fill-mode: both;
+  animation-timeline: --reveal;
+  animation-range: entry 5% cover 15%;
+  
+  &:hover {
+    transform: scale(1.02); 
+    box-shadow: 0 32px 80px 14px rgba(0,0,0,0.36), 0 0 0 1px rgba(0, 0, 0, 0.3);
+  }
+}
+
+@keyframes show {
+  from {
+    opacity: 0;
+    scale: 0.1;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+.card-avatar {
+  display: grid;
+  place-items: center;
+  border-radius: 10%;
+  overflow: hidden;
+  ion-img {
+    background-color: #333; 
+
+    &::part(spinner) {
+      color: var(--primary); 
+      width: 40px;
+      height: 40px;
+    }
+  }
+}
+
+.card-details {
+  padding: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.name {
+  font-size: 1.25rem;
+  margin-bottom: 0.1rem;
+}
+
+.occupation {
+  font-weight: 500;
+  font-size: 0.93rem;
+  color: var(--primary);
+  margin-bottom: 0.2rem;
+}
+
+.card-about {
+  display: flex;
+  justify-content: space-between; 
+  width: 100%;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 33%; 
+  font-size: 0.85rem;
+
+   
+  .label {
+    margin-top: 0.10rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--secondary);
+  }
+}
+
+.skills {
+  display: flex;
+  margin-top: 0.40rem;
+   
+  .value {
+    margin-top: 0.12rem;
+    font-size: 0.73rem;
+    line-height: 1.25rem;
+    white-space:unset;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-block-size: 5rem;
+  }
+}
