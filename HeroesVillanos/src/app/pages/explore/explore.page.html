@@ -1,0 +1,161 @@
+<ion-header>
+  <ion-toolbar color="light" class="search-toolbar">
+    <ion-grid class="search-grid">
+      <ion-row class="ion-align-items-center">
+        <!-- Search Bar -->
+        <ion-col size="8" size-sm="9" size-md="10">
+          <ion-searchbar class="custom-searchbar" color="light" fill="solid" (ionInput)="searchCharacters($event)"
+            [debounce]="1000" placeholder="Search heroes...">
+          </ion-searchbar>
+        </ion-col>
+
+        <!-- Sort Buttons -->
+        <ion-col size="4" size-sm="3" size-md="2" class="ion-text-center sort-buttons">
+          <ion-button fill="clear" size="small" (click)="orderByRating()" class="sort-btn">
+            <ion-icon slot="icon-only" name="swap-vertical"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" size="small" (click)="orderByAlphabet()" class="sort-btn">
+            <ion-icon slot="icon-only" name="text"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+
+  <!-- Toolbar Inferior: Chips de Filtro -->
+  <ion-toolbar>
+
+    <ion-grid style="padding: 0px 0px 0px 10px;">
+      <ion-row>
+        <ion-col style="padding: 0px 0px 0px 0px;" size="9.5" size-md="10" size-lg="20" size-xl="20">
+          <ion-accordion-group>
+            <ion-accordion>
+              <ion-row slot="header">
+                <ion-col style="padding: 0px 0px 10px 0px; --height: 10%;"> <!---->
+                  <ion-item class="ion-text-center ion-no-border"
+                    style="padding: 0px; height: 70%; background-color: rgb(82, 79, 79); " color="light">
+                    <ion-label style="font-size: 1rem; font-weight: 500; margin-top: 5px; margin-bottom: 15px;">Filtres
+                      <ion-icon name="filter-outline"></ion-icon></ion-label>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+              <ion-row class="ion-text-center" slot="content">
+                <ion-col size="6" size-md="4">
+                  <ion-chip class="limited-text-chip" id="universe">
+                    <ion-select aria-label="universe" placeholder="Select universe" [(ngModel)]="selectedUniverse"
+                      interface="alert" (click)="universesList()" (ionChange)="filterByUniverse($event)"
+                      multiple="true">
+                      @for (universe of universeList; track $index) {
+                      <ion-select-option [value]="universe">{{ universe }}</ion-select-option>
+                      }
+                    </ion-select>
+                  </ion-chip>
+                </ion-col>
+
+                <ion-col size="6" size-md="4">
+                  <ion-chip class="limited-text-chip" id="affiliation">
+                    <ion-select aria-label="affiliation" placeholder="Select an affiliation"
+                      [(ngModel)]="selectedAffiliation" interface="alert" (click)="affiliationsList()"
+                      (ionChange)="filterByAffiliation($event)" multiple="true">
+                      @for (affiliation of affiliationList; track $index) {
+                      <ion-select-option [value]="affiliation">{{ affiliation }}</ion-select-option>
+                      }
+                    </ion-select>
+                  </ion-chip>
+                </ion-col>
+                <ion-col size="12" size-md="4">
+                  <ion-chip class="limited-text-chip" id="power">
+                    <ion-select aria-label="Power" placeholder="Select Power" [(ngModel)]="selectedPower"
+                      interface="alert" (click)="mainPowersList()" (ionChange)="filterByMainPower($event)"
+                      multiple="true">
+                      @for (power of mainPowerList; track $index) {
+                      <ion-select-option [value]="power">{{ power }}</ion-select-option>
+                      }
+                    </ion-select>
+                  </ion-chip>
+                </ion-col>
+              </ion-row>
+            </ion-accordion>
+          </ion-accordion-group>
+        </ion-col> <!--size="2" size-md="4" size-lg="6" size-xl="9"-->
+        <ion-col style="padding: 0px; height: 0px;" class="ion-text-center" size="2" size-md="4" size-lg="6"
+          size-xl="10">
+          <ion-chip class="ion-text-center" color="danger" outline="true" (click)="clearFilters()"
+            style="font-size: 1rem; padding: 9px 15px 9px 4px; margin: 0px;">
+            <ion-icon name="reload"></ion-icon>
+          </ion-chip>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <div style="view-timeline: --reveal;">
+    <ion-grid>
+      @for (character of charactersArray; track character.id) {
+      <ion-row>
+        <ion-col size="12">
+          <ion-card class="card-custom">
+            <ion-card-content (click)="showLoading(character.id)"
+              style="padding-left: 8px; padding-right: 0px; padding-right: 0;">
+              <ion-row style="padding: 0px;">
+                <ion-col size="5" class="card-avatar" style="padding: 0px;">
+                  <div class="card-avatar" style="padding: 0px;">
+                    <ion-img [src]="character.images" alt="{{character.name}}" loadingSpinner="crescent"
+                      loading="lazy"></ion-img>
+                  </div>
+                </ion-col>
+
+                <ion-col size="7" class="card-details">
+
+                  <div class="name">
+                    <strong>{{ character.name}}</strong>
+                    <ion-icon name="heart" *ngIf="isFavorite(character.id)" (click)="toggleFavorite(character, $event)"
+                      style="font-size: 1.2rem; color: #ff1ead; cursor: pointer; margin-left: 8px;"></ion-icon>
+                    <ion-icon name="heart-outline" *ngIf="!isFavorite(character.id)"
+                      (click)="toggleFavorite(character, $event)"
+                      style="font-size: 1.2rem; color: #999; cursor: pointer; margin-left: 8px;"></ion-icon>
+                  </div>
+                  <div class="occupation">
+                    {{character.appearance}} {{character.afiliation}} {{character.universe}}
+                  </div>
+
+                  <!-- Sección de Peso, Altura, Poder (card-about) -->
+                  <div class="card-about">
+                    <div class="item">
+                      <span><strong>{{character.weight}}</strong></span>
+                      <span class="label">Weight</span>
+                    </div>
+                    <div class="item">
+                      <span><strong>{{character.height}}</strong></span>
+                      <span class="label">Height</span>
+                    </div>
+                    <div class="item">
+                      <span><strong>{{character.ratingPower}}</strong></span>
+                      <span class="label">Power</span>
+                    </div>
+                  </div>
+
+                  <!-- Sección de Habilidades (skills) -->
+                  <div class="skills">
+                    <span class="value">
+                      <strong>{{character.mainPower}}</strong>. {{character.groupAffiliation}}
+                    </span>
+                  </div>
+
+                </ion-col>
+              </ion-row>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+      }
+    </ion-grid>
+  </div>
+  <ion-infinite-scroll (ionInfinite)="getCharacters($event)">
+    <ion-infinite-scroll-content loadingText="Please wait..." loadingSpinner="bubbles"></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { SharedModule } from 'src/app/shared/shared-module';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {Characters} from '../../core/services/characters';
+import { Characters } from '../../core/services/characters';
 import MainPowers from '../../../assets/data/main-power.json';
 import { Character } from 'src/app/models/character.model';
 import { Powerstats } from 'src/app/models/powerstats.model';
@@ -19,32 +19,32 @@ import {
   IonCol,
   IonGrid,
   IonImg,
-  IonRow, 
+  IonRow,
   IonSearchbar,
   IonTitle,
   IonToolbar,
   IonHeader,
   IonAccordionGroup,
-  LoadingController, 
-  IonAccordion, 
-  IonButtons, IonLabel, IonItem, IonAlert, IonChip, IonSelect, IonIcon
+  LoadingController,
+  IonAccordion,
+  IonButton, IonLabel, IonItem, IonAlert, IonChip, IonSelect, IonIcon
 } from '@ionic/angular/standalone';
-import { ViewChild } from '@angular/core';
+import { ViewChild, ElementRef } from '@angular/core';
 
 
 @Component({
-  selector: 'app-tab1',
-  templateUrl: 'tab1.page.html',
-  styleUrls: ['tab1.page.scss'],
-  imports: [ IonLabel, IonItem, IonAccordionGroup, IonAccordion, IonIcon, IonSelectOption, IonSelect, IonHeader, IonChip, IonToolbar, IonSearchbar, IonContent, IonInfiniteScroll, IonInfiniteScrollContent, IonCard, IonCardContent, IonCol, IonGrid, IonImg, IonRow, SharedModule, FormsModule, CommonModule ],
+  selector: 'app-explore',
+  templateUrl: 'explore.page.html',
+  styleUrls: ['explore.page.scss'],
+  imports: [IonButton, IonLabel, IonItem, IonAccordionGroup, IonAccordion, IonIcon, IonSelectOption, IonSelect, IonHeader, IonChip, IonToolbar, IonSearchbar, IonContent, IonInfiniteScroll, IonInfiniteScrollContent, IonCard, IonCardContent, IonCol, IonGrid, IonImg, IonRow, SharedModule, FormsModule, CommonModule],
 })
 
-export class Tab1Page {
-  selectedUniverse: string []= [];
+export class ExplorePage {
+  selectedUniverse: string[] = [];
   universeList: string[] = [];
-  selectedAffiliation: string = '';
+  selectedAffiliation: string[] = [];
   affiliationList: string[] = [];
-  selectedPower: string = '';
+  selectedPower: string[] = [];
   mainPowerList: string[] = [];
   charactersArray: Character[] = [];
   dataArray: Character[] = [];
@@ -52,14 +52,17 @@ export class Tab1Page {
   auxCharacters: Character[] = [];
   maxNumberOfCharactersToDisplay: number = 20;
   loadedCharacters: number = 0;
-  orderRatingAsc:boolean = true;
-  orderAlphaAsc:boolean = true;
+  orderRatingAsc: boolean = true;
+  orderAlphaAsc: boolean = true;
   favoriteIds: Set<number> = new Set();
+  private lastScrollTop: number = 0;
+  private scrollThreshold: number = 50;
 
   @ViewChild(IonContent) content!: IonContent;
+  @ViewChild(IonAccordionGroup) accordionGroup!: IonAccordionGroup;
 
   constructor(private characters: Characters, private loadingCtrl: LoadingController, private router: Router) {
-    
+
   }
 
   async ngOnInit() {
@@ -67,6 +70,12 @@ export class Tab1Page {
     await this.prepareCharacterDisplayData();
     this.generarRangoAleatorioSinRepeticion();
     await this.getCharacters();
+    this.setupScrollListener();
+  }
+
+  ionViewWillEnter() {
+    // Reload favorites when tab becomes active to sync with Tab2 changes
+    this.loadFavorites();
   }
 
   private loadFavorites() {
@@ -74,13 +83,31 @@ export class Tab1Page {
     if (storedFavorites) {
       const favorites: Character[] = JSON.parse(storedFavorites);
       this.favoriteIds = new Set(favorites.map(char => char.id));
+    } else {
+      this.favoriteIds = new Set();
     }
   }
 
+  private setupScrollListener() {
+    this.content.ionScroll.subscribe((event: any) => {
+      const scrollTop = event.detail.scrollTop;
+
+      // Collapse accordion when scrolling down past threshold
+      if (scrollTop > this.lastScrollTop && scrollTop > this.scrollThreshold) {
+        // Scrolling down - collapse accordion
+        if (this.accordionGroup) {
+          this.accordionGroup.value = undefined;
+        }
+      }
+
+      this.lastScrollTop = scrollTop;
+    });
+  }
+
   private async prepareCharacterDisplayData(): Promise<void> {
-    for (const char of await this.characters.getCharacters()){
-      const afiliation = {"-": "Neutral", "neutral": "Neutral", "good": "Hero", "bad": "Villain"};
-      
+    for (const char of await this.characters.getCharacters()) {
+      const afiliation = { "-": "Neutral", "neutral": "Neutral", "good": "Hero", "bad": "Villain" };
+
       const powerstats: Powerstats = {
         intelligence: char.powerstats.intelligence,
         strength: char.powerstats.strength,
@@ -110,13 +137,13 @@ export class Tab1Page {
   }
 
   private selectMainPower(powerstats: Powerstats): [string, string] {
-     
+
     let aux: number = 0, ratingPower: number = 0, powerstat: string = "", topTwoPowers: string[] = [];
     const entries = Object.entries(powerstats);
 
-    for (const [powerkey, value] of entries){
+    for (const [powerkey, value] of entries) {
       ratingPower += value;
-      if (value > aux){
+      if (value > aux) {
         aux = value;
         powerstat = powerkey;
       }
@@ -126,7 +153,7 @@ export class Tab1Page {
       topTwoPowers.push(key);
       ratingPower += value;
     });
-    
+
     ratingPower /= 6;
     const powerKey = topTwoPowers.sort().join('_');
     const mainpower = (MainPowers as any)[powerKey] || powerstat;
@@ -134,8 +161,8 @@ export class Tab1Page {
     return [ratingPower.toFixed(2), mainpower];
   }
 
-  async getCharacters(event?: InfiniteScrollCustomEvent){
-    if (this.filterCharacters.length != 0){
+  async getCharacters(event?: InfiniteScrollCustomEvent) {
+    if (this.filterCharacters.length != 0) {
       console.log("Filtering");
       this.auxCharacters = this.filterCharacters;
     }
@@ -150,60 +177,52 @@ export class Tab1Page {
     this.loadedCharacters = this.maxNumberOfCharactersToDisplay;
     this.maxNumberOfCharactersToDisplay += 20;
     setTimeout(() => {
-        event?.target.complete();
-      }, 2000);
+      event?.target.complete();
+    }, 2000);
   }
 
-  searchCharacters(event: any){
-    if (this.selectedUniverse.length === 0 || this.selectedUniverse[0] === '' || this.selectedUniverse[0] === undefined){
-      this.generarRangoAleatorioSinRepeticion();
-    };
+  searchCharacters(event: any) {
+    const searchTerm = event.target.value.toLowerCase();
     this.maxNumberOfCharactersToDisplay = 40;
     this.loadedCharacters = 20;
-    const searchTerm = event.target.value.toLowerCase();
-    console.log(searchTerm);
 
     if (searchTerm && searchTerm.length > 0) {
-      // Filtrar personajes por nombre
-      let filteredCharacters: Character[] = this.filterCharacters;
-      if (this.filterCharacters.length != 0 && this.selectedUniverse[0] != undefined){
-        filteredCharacters = filteredCharacters.filter(character =>{
-          return character.name.toLowerCase().includes(searchTerm);
-        });
-      }else{
-        filteredCharacters =  this.auxCharacters
-        filteredCharacters = this.auxCharacters.filter(character =>{
-        return character.name.toLowerCase().includes(searchTerm);
-        });
-      }
-      
+      // Determine base array: use filtered results if filters are active, otherwise use all data
+      const baseArray = this.filterCharacters.length > 0
+        ? this.filterCharacters
+        : this.dataArray;
+
+      // Filter by search term
+      let filteredCharacters = baseArray.filter(character =>
+        character.name.toLowerCase().includes(searchTerm)
+      );
+
+      // Sort by relevance (names starting with search term first)
       filteredCharacters.sort((a, b) => {
         const nameA = a.name.toLowerCase();
         const nameB = b.name.toLowerCase();
-
         const startsWithA = nameA.startsWith(searchTerm);
         const startsWithB = nameB.startsWith(searchTerm);
 
-        // Prioridad 1: Si A empieza con la query y B no, A va primero.
-        if (startsWithA && !startsWithB) {
-            return -1; // A antes que B
-        }
-        // Prioridad 2: Si B empieza con la query y A no, B va primero.
-        if (!startsWithA && startsWithB) {
-            return 1; // B antes que A
-        }
-
+        if (startsWithA && !startsWithB) return -1;
+        if (!startsWithA && startsWithB) return 1;
         return nameA.localeCompare(nameB);
       });
-      
-      this.auxCharacters =  filteredCharacters;
+
+      this.auxCharacters = filteredCharacters;
       this.charactersArray = [...filteredCharacters.slice(0, 20)];
-      this.content.scrollToTop(500);
-    };
-    this.filterCharacters = [];
-    const range: Character[] = this.auxCharacters;
-    this.charactersArray = [...range.slice(0, 20)];
-    
+    } else {
+      // No search term: restore filtered results or all data
+      if (this.filterCharacters.length > 0) {
+        this.auxCharacters = this.filterCharacters;
+        this.charactersArray = [...this.filterCharacters.slice(0, 20)];
+      } else {
+        this.generarRangoAleatorioSinRepeticion();
+        this.charactersArray = [...this.auxCharacters.slice(0, 20)];
+      }
+    }
+
+    this.content.scrollToTop(500);
   }
 
   private generarRangoAleatorioSinRepeticion() {
@@ -216,54 +235,59 @@ export class Tab1Page {
     this.auxCharacters = this.dataArray;
   }
 
+  /**
+   * Centralized method to apply all active filters
+   * Combines Universe, Affiliation, and Power filters with AND/OR logic
+   */
+  private applyAllFilters() {
+    let result = [...this.dataArray]; // Start from complete dataset
 
+    // Filter 1: Universe (OR logic - match any selected universe)
+    if (this.selectedUniverse.length > 0 && this.selectedUniverse[0] !== '') {
+      result = result.filter(char =>
+        this.selectedUniverse.some(universe => char.universe.includes(universe))
+      );
+    }
+
+    // Filter 2: Affiliation (OR logic - match any selected affiliation)
+    if (this.selectedAffiliation.length > 0 && this.selectedAffiliation[0] !== '') {
+      result = result.filter(char =>
+        this.selectedAffiliation.some(affiliation => char.afiliation.includes(affiliation))
+      );
+    }
+
+    // Filter 3: Power (OR logic - match any selected power)
+    if (this.selectedPower.length > 0 && this.selectedPower[0] !== '') {
+      result = result.filter(char =>
+        this.selectedPower.some(power => char.mainPower.includes(power))
+      );
+    }
+
+    // Update arrays
+    this.filterCharacters = result;
+    this.auxCharacters = result;
+    this.maxNumberOfCharactersToDisplay = 40;
+    this.loadedCharacters = 20;
+    this.charactersArray = [...result.slice(0, 20)];
+    this.content.scrollToTop(500);
+  }
 
   filterByUniverse(event: Event) {
-    this.filterCharacters = [];
-    const text:string = JSON.stringify((event.target as HTMLIonSelectElement).value);
+    const text: string = JSON.stringify((event.target as HTMLIonSelectElement).value);
     this.selectedUniverse = text.replace(/"/g, '').replace("[", "").replace("]", "").split(',');
-    let range : Character[] = []
-    this.generarRangoAleatorioSinRepeticion();
-    this.maxNumberOfCharactersToDisplay = 40;
-    this.loadedCharacters = 20;
-    if (this.selectedUniverse.length > 0 && this.selectedUniverse[0] != ''){
-      for (const universe of this.selectedUniverse){
-        
-        this.filterCharacters.push(...this.auxCharacters.filter((character: Character) =>{
-          return character.universe.includes(universe);
-        }));
-      }
-      range = this.filterCharacters;
-    }else{
-      this.filterCharacters = []
-      range = this.auxCharacters;
-    }
-    console.log(this.filterCharacters,  this.selectedUniverse);
-    this.content.scrollToTop(500);
-    this.charactersArray = [];
-    this.charactersArray = [...range.slice(0, 20)];
-    
+    this.applyAllFilters();
   }
 
-
-  filterByAffiliation() {
-    this.maxNumberOfCharactersToDisplay = 40;
-    this.loadedCharacters = 20;
-    const filteredCharacters = this.auxCharacters.filter(character =>{
-      return character.afiliation.includes(this.selectedAffiliation);
-    });
-    this.filterCharacters =  filteredCharacters;
-    this.charactersArray = [...filteredCharacters.slice(0, 20)];
+  filterByAffiliation(event: Event) {
+    const text: string = JSON.stringify((event.target as HTMLIonSelectElement).value);
+    this.selectedAffiliation = text.replace(/"/g, '').replace("[", "").replace("]", "").split(',');
+    this.applyAllFilters();
   }
 
-  filterByMainPower() {
-    this.maxNumberOfCharactersToDisplay = 40;
-    this.loadedCharacters = 20;
-    const filteredCharacters = this.auxCharacters.filter(character =>{
-      return character.mainPower.includes(this.selectedPower);
-    });
-    this.filterCharacters =  filteredCharacters;
-    this.charactersArray = [...filteredCharacters.slice(0, 20)];
+  filterByMainPower(event: Event) {
+    const text: string = JSON.stringify((event.target as HTMLIonSelectElement).value);
+    this.selectedPower = text.replace(/"/g, '').replace("[", "").replace("]", "").split(',');
+    this.applyAllFilters();
   }
 
 
@@ -274,16 +298,16 @@ export class Tab1Page {
 
 
   orderByRating() {
-    let sortedCharacters:Character[] = [];
-    if (this.filterCharacters.length != 0){
-       sortedCharacters = this.filterCharacters = this.filterCharacters.sort((a, b) => {
+    let sortedCharacters: Character[] = [];
+    if (this.filterCharacters.length != 0) {
+      sortedCharacters = this.filterCharacters = this.filterCharacters.sort((a, b) => {
         if (this.orderRatingAsc) {
           return +a.ratingPower - +b.ratingPower;
         } else {
           return +b.ratingPower - +a.ratingPower;
         }
-      }); 
-    }else{
+      });
+    } else {
       sortedCharacters = this.auxCharacters = this.auxCharacters.sort((a, b) => {
         if (this.orderRatingAsc) {
           return +a.ratingPower - +b.ratingPower;
@@ -299,16 +323,16 @@ export class Tab1Page {
   }
 
   orderByAlphabet() {
-    let sortedCharacters:Character[] = [];
-    if (this.filterCharacters.length != 0){
-       sortedCharacters = this.filterCharacters = this.filterCharacters.sort((a, b) => {
+    let sortedCharacters: Character[] = [];
+    if (this.filterCharacters.length != 0) {
+      sortedCharacters = this.filterCharacters = this.filterCharacters.sort((a, b) => {
         if (this.orderAlphaAsc) {
           return a.name.localeCompare(b.name);
         } else {
           return b.name.localeCompare(a.name);
         }
-      }); 
-    }else{
+      });
+    } else {
       sortedCharacters = this.auxCharacters = this.auxCharacters.sort((a, b) => {
         if (this.orderAlphaAsc) {
           return a.name.localeCompare(b.name);
@@ -325,18 +349,18 @@ export class Tab1Page {
 
   toggleFavorite(character: Character, event: Event) {
     event.stopPropagation();
-    
+
     if (this.favoriteIds.has(character.id)) {
       this.favoriteIds.delete(character.id);
     } else {
       this.favoriteIds.add(character.id);
     }
-    
+
     // Obtener todos los personajes favoritos completos
     const allCharacters = [...this.dataArray, ...this.auxCharacters];
     const uniqueCharacters = Array.from(new Map(allCharacters.map(char => [char.id, char])).values());
     const favoriteCharacters = uniqueCharacters.filter(char => this.favoriteIds.has(char.id));
-    
+
     localStorage.setItem('favoriteCharacters', JSON.stringify(favoriteCharacters));
   }
 
@@ -344,10 +368,10 @@ export class Tab1Page {
     return this.favoriteIds.has(characterId);
   }
 
-  clearFilters(){
+  clearFilters() {
     this.selectedUniverse = [];
-    this.selectedAffiliation = '';
-    this.selectedPower = '';
+    this.selectedAffiliation = [];
+    this.selectedPower = [];
     this.filterCharacters = [];
     this.generarRangoAleatorioSinRepeticion();
     this.maxNumberOfCharactersToDisplay = 40;

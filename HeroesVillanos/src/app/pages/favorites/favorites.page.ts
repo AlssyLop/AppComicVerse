@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardContent, IonRow, IonCol, IonGrid, IonImg, IonButton, IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, IonCardHeader, IonCardTitle } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardContent, IonRow, IonCol, IonGrid, IonImg, IonButton, IonIcon, IonCardHeader, IonCardTitle } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
@@ -8,17 +8,17 @@ import { Character } from 'src/app/models/character.model';
 
 
 @Component({
-  selector: 'app-tab2',
-  templateUrl: 'tab2.page.html',
-  styleUrls: ['tab2.page.scss'],
-  imports: [IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardContent, IonRow, IonCol, IonGrid, IonImg, IonButton, IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, CommonModule, IonCardHeader, IonCardTitle]
+  selector: 'app-favorites',
+  templateUrl: 'favorites.page.html',
+  styleUrls: ['favorites.page.scss'],
+  imports: [ IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardContent, IonRow, IonCol, IonGrid, IonImg, IonButton, IonIcon, CommonModule, IonCardHeader, IonCardTitle]
 })
-export class Tab2Page implements OnInit {
+export class FavoritesPage implements OnInit {
   favoriteCharacters: Character[] = [];
-  
+
   @ViewChild(IonContent) content!: IonContent;
 
-  constructor(private router: Router, private loadingCtrl: LoadingController) {}
+  constructor(private router: Router, private loadingCtrl: LoadingController) { }
 
   ngOnInit() {
     this.loadFavorites();
@@ -63,5 +63,9 @@ export class Tab2Page implements OnInit {
     });
 
     await loading.present();
+  }
+
+  goToExplore() {
+    this.router.navigate(['tabs/explore']);
   }
 }

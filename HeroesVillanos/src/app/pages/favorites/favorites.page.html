@@ -1,0 +1,126 @@
+<ion-header>
+  <ion-toolbar color="dark" class="favorites-toolbar">
+    <ion-title class="favorites-title">
+      <ion-icon name="heart" class="title-icon"></ion-icon>
+      My Favorites
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="favorites-content">
+  <!-- Statistics Card -->
+  <ion-card class="stats-card" *ngIf="favoriteCharacters.length > 0">
+    <ion-card-header>
+      <ion-card-title class="stats-title">
+        <ion-icon name="stats-chart" class="section-icon"></ion-icon>
+        Statistics
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="3" class="stat-col">
+            <div class="stat-number total">{{ favoriteCharacters.length }}</div>
+            <div class="stat-label">Total</div>
+          </ion-col>
+          <ion-col size="3" class="stat-col">
+            <div class="stat-number heroes">{{ countByAffiliation('Hero') }}</div>
+            <div class="stat-label">Heroes</div>
+          </ion-col>
+          <ion-col size="3" class="stat-col">
+            <div class="stat-number villains">{{ countByAffiliation('Villain') }}</div>
+            <div class="stat-label">Villains</div>
+          </ion-col>
+          <ion-col size="3" class="stat-col">
+            <div class="stat-number neutral">{{ countByAffiliation('Neutral') }}</div>
+            <div class="stat-label">Neutral</div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Characters Grid -->
+  <div class="characters-container">
+    <ion-grid>
+      @if (favoriteCharacters.length > 0) {
+      @for (character of favoriteCharacters; track character.id) {
+      <ion-row>
+        <ion-col size="12">
+          <ion-card class="favorite-card">
+            <ion-card-content class="card-content-wrapper" (click)="showLoading(character.id)">
+              <ion-row class="card-row">
+                <!-- Character Image -->
+                <ion-col size="5" class="image-col">
+                  <div class="card-avatar">
+                    <ion-img [src]="character.images" [alt]="character.name" loadingSpinner="crescent" loading="lazy">
+                    </ion-img>
+                  </div>
+                </ion-col>
+
+                <!-- Character Details -->
+                <ion-col size="7" class="details-col">
+                  <div class="character-name">
+                    <strong>{{ character.name }}</strong>
+                  </div>
+                  <div class="character-info">
+                    <span class="info-badge">{{ character.afiliation }}</span>
+                    <span class="info-badge">{{ character.universe }}</span>
+                  </div>
+
+                  <!-- Stats Grid -->
+                  <div class="character-stats">
+                    <div class="stat-item">
+                      <span class="stat-value">{{ character.weight }}</span>
+                      <span class="stat-label-small">Weight</span>
+                    </div>
+                    <div class="stat-item">
+                      <span class="stat-value">{{ character.height }}</span>
+                      <span class="stat-label-small">Height</span>
+                    </div>
+                    <div class="stat-item">
+                      <span class="stat-value">{{ character.ratingPower }}</span>
+                      <span class="stat-label-small">Power</span>
+                    </div>
+                  </div>
+
+                  <!-- Main Power -->
+                  <div class="character-power">
+                    <ion-icon name="flash" class="power-icon"></ion-icon>
+                    <span>{{ character.mainPower }}</span>
+                  </div>
+                </ion-col>
+
+                <!-- Remove Button -->
+                <ion-col size="12" class="action-col">
+                  <ion-button (click)="removeFavorite(character.id); $event.stopPropagation()" color="danger"
+                    size="small" fill="outline" class="remove-btn">
+                    <ion-icon name="trash" slot="start"></ion-icon>
+                    Remove from Favorites
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+      }
+      } @else {
+      <!-- Empty State -->
+      <ion-row class="empty-state">
+        <ion-col size="12" class="ion-text-center">
+          <div class="empty-icon-wrapper">
+            <ion-icon name="heart-outline" class="empty-icon"></ion-icon>
+          </div>
+          <h2 class="empty-title">No Favorites Yet</h2>
+          <p class="empty-message">Start adding your favorite characters from the Explore tab!</p>
+          <ion-button (click)="goToExplore()" color="primary" class="explore-btn">
+            <ion-icon name="search" slot="start"></ion-icon>
+            Explore Characters
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      }
+    </ion-grid>
+  </div>
+</ion-content>

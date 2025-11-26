@@ -1,0 +1,405 @@
+// ==========================================
+// Tab3 Settings Page Styles
+// ==========================================
+
+// Color Variables
+:root {
+  --primary: #ff1ead;
+  --secondary: #1effc3;
+  --background-light: #f5f5f5;
+  --background-dark: #121212;
+  --card-light: #ffffff;
+  --card-dark: #1e1e1e;
+  --text-light: #333333;
+  --text-dark: #ffffff;
+  --border-light: rgba(0, 0, 0, 0.1);
+  --border-dark: rgba(255, 255, 255, 0.1);
+}
+
+// ==========================================
+// Header Styles
+// ==========================================
+
+.settings-toolbar {
+  --background: linear-gradient(135deg, var(--primary) 0%, #c71585 100%);
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.settings-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: white;
+  
+  .title-icon {
+    font-size: 1.6rem;
+    animation: rotate 3s linear infinite;
+  }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+// ==========================================
+// Content Styles
+// ==========================================
+
+.settings-content {
+  --background: var(--background-light);
+  
+  body.dark & {
+    --background: var(--background-dark);
+  }
+}
+
+// ==========================================
+// Card Styles
+// ==========================================
+
+.settings-card {
+  margin: 16px;
+  background: var(--card-light);
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border-light);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.12);
+  }
+  
+  body.dark & {
+    background: var(--card-dark);
+    border-color: var(--border-dark);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    
+    &:hover {
+      box-shadow: 0 6px 30px rgba(0, 0, 0, 0.5);
+    }
+  }
+}
+
+// ==========================================
+// Card Header Styles
+// ==========================================
+
+ion-card-header {
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(255, 30, 173, 0.1) 0%, rgba(30, 255, 195, 0.1) 100%);
+  border-bottom: 2px solid var(--border-light);
+  
+  body.dark & {
+    background: linear-gradient(135deg, rgba(255, 30, 173, 0.15) 0%, rgba(30, 255, 195, 0.15) 100%);
+    border-bottom-color: var(--border-dark);
+  }
+}
+
+.card-title-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--text-light);
+  font-size: 1.2rem;
+  font-weight: 700;
+  
+  body.dark & {
+    color: var(--text-dark);
+  }
+}
+
+.section-icon {
+  font-size: 1.5rem;
+  color: var(--primary);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+// ==========================================
+// Card Content Styles
+// ==========================================
+
+ion-card-content {
+  padding: 20px;
+}
+
+// ==========================================
+// Setting Item Styles
+// ==========================================
+
+.setting-item {
+  --background: transparent;
+  --padding-start: 0;
+  --inner-padding-end: 0;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    --background: rgba(255, 30, 173, 0.05);
+    
+    body.dark & {
+      --background: rgba(255, 30, 173, 0.1);
+    }
+  }
+  
+  ion-label {
+    color: var(--text-light);
+    
+    h2 {
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+    
+    p {
+      font-size: 0.85rem;
+      color: #888;
+      margin-top: 0;
+    }
+    
+    body.dark & {
+      color: var(--text-dark);
+      
+      p {
+        color: #aaa;
+      }
+    }
+  }
+}
+
+.item-icon {
+  font-size: 1.4rem;
+  color: var(--secondary);
+  margin-right: 16px;
+  
+  &.danger {
+    color: #ff4444;
+  }
+}
+
+// ==========================================
+// Toggle Styles
+// ==========================================
+
+ion-toggle {
+  --background: #ccc;
+  --background-checked: var(--primary);
+  --handle-background: white;
+  --handle-background-checked: white;
+  --handle-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  
+  body.dark & {
+    --background: #444;
+  }
+}
+
+// ==========================================
+// Select Styles
+// ==========================================
+
+ion-select {
+  color: var(--text-light);
+  font-weight: 600;
+  
+  &::part(icon) {
+    color: var(--primary);
+  }
+  
+  body.dark & {
+    color: var(--text-dark);
+  }
+}
+
+// ==========================================
+// Button Styles
+// ==========================================
+
+.action-button {
+  margin-top: 16px;
+  --border-radius: 12px;
+  font-weight: 600;
+  height: 48px;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.02);
+  }
+  
+  ion-icon {
+    margin-right: 8px;
+  }
+}
+
+// ==========================================
+// Info Text Styles
+// ==========================================
+
+.info-text {
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 0.95rem;
+  
+  body.dark & {
+    color: var(--secondary);
+  }
+}
+
+// ==========================================
+// About Card Styles
+// ==========================================
+
+.about-card {
+  ion-item {
+    --border-color: var(--border-light);
+    
+    body.dark & {
+      --border-color: var(--border-dark);
+    }
+  }
+}
+
+// ==========================================
+// Copyright Card Styles
+// ==========================================
+
+.copyright-card {
+  background: linear-gradient(135deg, rgba(255, 30, 173, 0.1) 0%, rgba(30, 255, 195, 0.1) 100%);
+  border: 2px solid var(--primary);
+  
+  body.dark & {
+    background: linear-gradient(135deg, rgba(255, 30, 173, 0.15) 0%, rgba(30, 255, 195, 0.15) 100%);
+  }
+}
+
+.copyright-content {
+  padding: 24px;
+}
+
+.copyright-section {
+  text-align: center;
+  
+  .copyright-icon {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 16px;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  
+  h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-light);
+    margin-bottom: 12px;
+    
+    body.dark & {
+      color: var(--text-dark);
+    }
+  }
+  
+  .copyright-text {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 8px;
+    
+    body.dark & {
+      color: #aaa;
+    }
+  }
+  
+  .credits-text {
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 6px;
+    
+    strong {
+      color: var(--primary);
+      font-weight: 600;
+    }
+    
+    .heart-icon {
+      color: #ff4444;
+      font-size: 0.9rem;
+      vertical-align: middle;
+      animation: heartbeat 1.5s ease-in-out infinite;
+    }
+    
+    body.dark & {
+      color: #999;
+    }
+  }
+  
+  .disclaimer {
+    margin-top: 20px;
+    padding: 16px;
+    background: rgba(255, 193, 7, 0.1);
+    border-left: 4px solid #ffc107;
+    border-radius: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    text-align: left;
+    
+    .disclaimer-icon {
+      font-size: 1.2rem;
+      color: #ffc107;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    
+    p {
+      font-size: 0.8rem;
+      color: #666;
+      margin: 0;
+      line-height: 1.5;
+      
+      body.dark & {
+        color: #aaa;
+      }
+    }
+    
+    body.dark & {
+      background: rgba(255, 193, 7, 0.15);
+    }
+  }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  25% { transform: scale(1.2); }
+  50% { transform: scale(1); }
+}
+
+// ==========================================
+// Footer Spacing
+// ==========================================
+
+.footer-spacing {
+  height: 40px;
+}
+
+// ==========================================
+// Responsive Design
+// ==========================================
+
+@media (min-width: 768px) {
+  .settings-card {
+    margin: 20px auto;
+    max-width: 600px;
+  }
+}

@@ -1,0 +1,136 @@
+<ion-header>
+  <ion-toolbar color="dark" class="settings-toolbar">
+    <ion-title class="settings-title">
+      <ion-icon name="settings" class="title-icon"></ion-icon>
+      Settings
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="settings-content">
+  <!-- Appearance Section -->
+  <ion-card class="settings-card">
+    <ion-card-header>
+      <ion-card-title class="card-title-with-icon">
+        <ion-icon name="color-palette" class="section-icon"></ion-icon>
+        Appearance
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item lines="none" class="setting-item">
+        <ion-icon name="moon" slot="start" class="item-icon"></ion-icon>
+        <ion-label>
+          <h2>Dark Mode</h2>
+          <p>Toggle dark theme for the app</p>
+        </ion-label>
+        <ion-toggle slot="end" [(ngModel)]="darkMode" (ionChange)="onDarkModeChange()"></ion-toggle>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Language Section -->
+  <ion-card class="settings-card">
+    <ion-card-header>
+      <ion-card-title class="card-title-with-icon">
+        <ion-icon name="language" class="section-icon"></ion-icon>
+        Language
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item lines="none" class="setting-item">
+        <ion-icon name="globe" slot="start" class="item-icon"></ion-icon>
+        <ion-label>
+          <h2>Select Language</h2>
+          <p>Choose your preferred language</p>
+        </ion-label>
+        <ion-select [(ngModel)]="selectedLanguage" (ionChange)="onLanguageChange()" interface="popover" slot="end">
+          <ion-select-option value="en">English</ion-select-option>
+          <ion-select-option value="es">Español</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Data Management Section -->
+  <ion-card class="settings-card">
+    <ion-card-header>
+      <ion-card-title class="card-title-with-icon">
+        <ion-icon name="server" class="section-icon"></ion-icon>
+        Data Management
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item lines="none" class="setting-item">
+        <ion-icon name="heart" slot="start" class="item-icon danger"></ion-icon>
+        <ion-label>
+          <h2>Clear Favorites</h2>
+          <p>Remove all saved favorite characters</p>
+        </ion-label>
+      </ion-item>
+      <ion-button expand="block" color="danger" fill="outline" (click)="clearFavorites()" class="action-button">
+        <ion-icon name="trash" slot="start"></ion-icon>
+        Clear All Favorites
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- About Section -->
+  <ion-card class="settings-card about-card">
+    <ion-card-header>
+      <ion-card-title class="card-title-with-icon">
+        <ion-icon name="information-circle" class="section-icon"></ion-icon>
+        About
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item lines="full" class="setting-item">
+        <ion-icon name="apps" slot="start" class="item-icon"></ion-icon>
+        <ion-label>App Name</ion-label>
+        <ion-text slot="end" class="info-text">{{ appName }}</ion-text>
+      </ion-item>
+
+      <ion-item lines="full" class="setting-item">
+        <ion-icon name="code-slash" slot="start" class="item-icon"></ion-icon>
+        <ion-label>Version</ion-label>
+        <ion-text slot="end" class="info-text">{{ appVersion }}</ion-text>
+      </ion-item>
+
+      <ion-item lines="none" class="setting-item">
+        <ion-icon name="build" slot="start" class="item-icon"></ion-icon>
+        <ion-label>
+          <h2>Developer</h2>
+          <p>AlssyLop Team</p>
+        </ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Copyright Section -->
+  <ion-card class="settings-card copyright-card">
+    <ion-card-content class="copyright-content">
+      <div class="copyright-section">
+        <ion-icon name="shield-checkmark" class="copyright-icon"></ion-icon>
+        <h3>Copyright & Credits</h3>
+        <p class="copyright-text">
+          © 2025 ComicVerse. All rights reserved.
+        </p>
+        <p class="credits-text">
+          Character data provided by <strong>SuperHero API</strong>
+        </p>
+        <p class="credits-text">
+          Built with <ion-icon name="heart" class="heart-icon"></ion-icon> using Ionic & Angular
+        </p>
+        <div class="disclaimer">
+          <ion-icon name="alert-circle" class="disclaimer-icon"></ion-icon>
+          <p>
+            This app is for educational purposes only. All character names, images, and related content are property of
+            their respective owners.
+          </p>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Footer Spacing -->
+  <div class="footer-spacing"></div>
+</ion-content>
