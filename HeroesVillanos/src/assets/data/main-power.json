@@ -1,0 +1,21 @@
+{
+  "intelligence_strength": "Tactical Overpower",
+  "intelligence_speed": "Hyper-Processing Reflexes",
+  "intelligence_durability": "Adaptive Fortification",
+  "intelligence_power": "Energy Manipulation Genius",
+  "intelligence_combat": "Master Strategist",
+  
+  "speed_strength": "Kinetic Impact",
+  "durability_strength": "Unstoppable Juggernaut",
+  "power_strength": "Titan Force",
+  "combat_strength": "Brutal Technique",
+  
+  "durability_speed": "Impervious Momentum",
+  "power_speed": "Velocity Surge",
+  "speed_combat": "Blitzkrieg Assault",
+  
+  "durability_power": "Resilient Energy Core",
+  "combat_durability": "Indomitable Warrior",
+  
+  "combat_power": "Battlefield Dominance"
+}
