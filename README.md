@@ -52,7 +52,7 @@
 
 ## 🛠️ Tecnologías Utilizadas
 
-- **Framework**: [Angular](https://angular.io/) 20.0.0
+- **Framework**: [Angular](https://angular.io/) 18.0.0
 - **UI Framework**: [Ionic](https://ionicframework.com/) 8.0.0
 - **Mobile Runtime**: [Capacitor](https://capacitorjs.com/) 7.4.4
 - **Lenguaje**: TypeScript 5.9.0
